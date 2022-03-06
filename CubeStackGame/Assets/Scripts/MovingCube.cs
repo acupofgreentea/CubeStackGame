@@ -8,12 +8,23 @@ public class MovingCube : MonoBehaviour
 
     public static MovingCube LastCube {get; private set;}
 
+    private Renderer rend;
+
     private void OnEnable() 
     {
         if(LastCube == null)
             LastCube = GameObject.FindGameObjectWithTag("StartCube").GetComponent<MovingCube>();
         
         CurrentCube = this;
+
+        rend = GetComponent<Renderer>();
+
+        rend.material.color = GetRandomColor();
+    }
+
+    private Color GetRandomColor()
+    {
+        return new Color(Random.Range(0, 1f), Random.Range(0, 1f), Random.Range(0, 1f));
     }
 
     private void Update()
@@ -65,6 +76,7 @@ public class MovingCube : MonoBehaviour
         cube.transform.position = new Vector3(transform.position.x, transform.position.y, fallingBlockZPos);
 
         cube.AddComponent<Rigidbody>();
+        cube.GetComponent<Renderer>().material.color = rend.material.color;
         Destroy(cube, 1f);
     }
 
