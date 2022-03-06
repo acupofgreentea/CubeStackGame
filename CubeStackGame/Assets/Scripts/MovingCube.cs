@@ -20,6 +20,8 @@ public class MovingCube : MonoBehaviour
         rend = GetComponent<Renderer>();
 
         rend.material.color = GetRandomColor();
+
+        transform.localScale = new Vector3(LastCube.transform.localScale.x, transform.localScale.y, LastCube.transform.localScale.z);
     }
 
     private Color GetRandomColor()
@@ -41,6 +43,8 @@ public class MovingCube : MonoBehaviour
         float direction = hangover > 0 ? 1f : -1f;
 
         SplitCubeZ(hangover, direction);
+        
+        LastCube = this;
     }
     
     private void SplitCubeZ(float hangover, float direction)
