@@ -2,8 +2,9 @@ using UnityEngine;
 
 public class CubeSpawner : MonoBehaviour
 {
-    [SerializeField] private GameObject cubePrefab;
+    [SerializeField] private MovingCube cubePrefab;
 
+    [SerializeField] private MoveDirection moveDirection;
 
     public void SpawnCube()
     {
@@ -17,6 +18,8 @@ public class CubeSpawner : MonoBehaviour
         {
             cube.transform.position = transform.position;
         }
+
+        cube.MoveDir = moveDirection;
 
     }
 }
