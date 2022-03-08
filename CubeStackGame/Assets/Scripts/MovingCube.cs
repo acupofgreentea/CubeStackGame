@@ -5,8 +5,6 @@ public class MovingCube : MonoBehaviour
 {
     [SerializeField] private float moveSpeed;
 
-    [SerializeField] private MoveDirection moveDirection;
-
     public static MovingCube CurrentCube {get; private set;}
 
     public static MovingCube LastCube {get; private set;}
@@ -41,7 +39,7 @@ public class MovingCube : MonoBehaviour
 
     private float GetHangover()
     {
-        if(moveDirection == MoveDirection.Z)
+        if(MoveDir == MoveDirection.Z)
             return transform.position.z - LastCube.transform.position.z;
         else
             return transform.position.x - LastCube.transform.position.x;
@@ -57,30 +55,27 @@ public class MovingCube : MonoBehaviour
 
         if(Mathf.Abs(hangover) >= max)
         {
-            LastCube = null;
-            CurrentCube = null;
-
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+
+            CurrentCube = null;
         }
 
         float direction = hangover > 0 ? 1f : -1f;
 
-        if(moveDirection == MoveDirection.Z)
+        if(MoveDir == MoveDirection.Z)
             SplitCubeZ(hangover, direction);
         else
             SplitCubeX(hangover, direction);
-
-
         
         LastCube = this;
     }
     
     private void SplitCubeX(float hangover, float direction)
     {
+    
         float newXScale = LastCube.transform.localScale.x - Mathf.Abs(hangover);
 
         float newXPos = LastCube.transform.position.x + (hangover / 2);
-
 
         transform.localScale = new Vector3(newXScale, transform.localScale.y, transform.localScale.z);
 
@@ -94,7 +89,6 @@ public class MovingCube : MonoBehaviour
         float newZScale = LastCube.transform.localScale.z - Mathf.Abs(hangover);
 
         float newZPos = LastCube.transform.position.z + (hangover / 2);
-
 
         transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, newZScale);
 
@@ -118,7 +112,7 @@ public class MovingCube : MonoBehaviour
     {
         var cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
 
-        if(moveDirection == MoveDirection.Z)
+        if(MoveDir == MoveDirection.Z)
         {
             cube.transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, fallingBlockScale);
             cube.transform.position = new Vector3(transform.position.x, transform.position.y, fallingBlockZPos);
